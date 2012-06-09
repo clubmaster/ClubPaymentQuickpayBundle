@@ -31,14 +31,24 @@ EOF;
 
     fwrite($fp, $out);
 
-    $in = '';
-    while (!feof($fp)) {
-      $in .= fgets($fp, 128);
-    }
+    $is_header = true;
+    $header = '';
+    $body = '';
 
+    while (!feof($fp)) {
+      $b = trim(fgets($fp, 128));
+
+      if (!strlen($b)) {
+        $is_header = false;
+      } elseif ($is_header) {
+        $header .= $b;
+      } else {
+        $body .= $b;
+      }
+    }
     fclose($fp);
 
-    $this->response = $in;
+    $this->response = simplexml_load_string($body);
   }
 
   public function recurring(\Club\Payment\QuickpayBundle\Model\Recurring $recurring)
