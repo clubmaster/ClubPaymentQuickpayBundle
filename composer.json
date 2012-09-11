@@ -12,7 +12,7 @@
             "name": "Michael Holm Kristensen",
             "email": "hollo@hollo.dk",
             "homepage": "http://www.hollo.dk",
-            "role": "Developer"
+            "role": "Maintainer"
         }
     ],
     "target-dir": "clubmaster/Payment/QuickpayBundle"
