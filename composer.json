@@ -15,5 +15,8 @@
             "role": "Maintainer"
         }
     ],
+    "autoload": {
+        "psr-0": { "Club\\Payment\\QuickpayBundle": "" }
+    },
     "target-dir": "Club/Payment/QuickpayBundle"
 }
