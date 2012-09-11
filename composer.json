@@ -6,5 +6,6 @@
     "require": {
         "php": ">=5.3.2"
     },
-    "target-dir": "Payment/"
+    "config": {
+        "vendor-dir": "Payment/"
 }
