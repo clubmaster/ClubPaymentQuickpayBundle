@@ -1,0 +1,12 @@
+{
+    "name": "clubmaster/quickpay",
+    "description": "Quickpay payment gateway.",
+    "keywords": ["clubmaster", "quickpay", "payment", "gateway"],
+    "license": "Beerware",
+    "require": {
+        "php": ">=5.3.2",
+    },
+    "autoload": {
+        "psr-0": { "Club\\Payment": "src" }
+    }
+}
