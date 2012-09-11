@@ -15,5 +15,5 @@
             "role": "Maintainer"
         }
     ],
-    "target-dir": "Payment/QuickpayBundle"
+    "target-dir": "Club/Payment/QuickpayBundle"
 }
