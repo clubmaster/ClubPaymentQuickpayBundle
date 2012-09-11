@@ -4,6 +4,6 @@
     "keywords": ["clubmaster", "quickpay", "payment", "gateway"],
     "license": "Beerware",
     "require": {
-        "php": ">=5.3.2",
+        "php": ">=5.3.2"
     }
 }
