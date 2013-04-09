@@ -41,7 +41,7 @@ class QuickpayController extends Controller
     if ($r->get('qpstat') == '000')
       $accepted = $this->validateTransaction();
 
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $order = $em->find('ClubShopBundle:Order', $order_id);
 
     $t = new \Club\ShopBundle\Entity\PurchaseLog();
@@ -76,7 +76,7 @@ class QuickpayController extends Controller
    */
   public function indexAction($order_id)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $order = $em->find('ClubShopBundle:Order', $order_id);
 
     $form = $this->getForm($order);
