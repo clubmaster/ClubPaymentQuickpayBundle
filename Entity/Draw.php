@@ -49,6 +49,13 @@ class Draw
     private $status = self::DRAW_NEW;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="log", type="text", nullable=true)
+     */
+    private $log;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
@@ -194,23 +201,6 @@ class Draw
     }
 
     /**
-     * @ORM\PrePersist
-     */
-    public function prePersist()
-    {
-        $this->setCreatedAt(new \DateTime());
-        $this->setUpdatedAt(new \DateTime());
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function preUpdate()
-    {
-        $this->setUpdatedAt(new \DateTime());
-    }
-
-    /**
      * Set order
      *
      * @param \Club\ShopBundle\Entity\Order $order
@@ -231,5 +221,45 @@ class Draw
     public function getOrder()
     {
         return $this->order;
+    }
+
+    /**
+     * Set log
+     *
+     * @param string $log
+     * @return Draw
+     */
+    public function setLog($log)
+    {
+        $this->log = $log;
+
+        return $this;
+    }
+
+    /**
+     * Get log
+     *
+     * @return string
+     */
+    public function getLog()
+    {
+        return $this->log;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime());
     }
 }
