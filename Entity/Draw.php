@@ -42,6 +42,13 @@ class Draw
     private $currency;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="transaction", type="string", length=255)
+     */
+    private $transaction;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="status", type="integer")
@@ -261,5 +268,28 @@ class Draw
     public function preUpdate()
     {
         $this->setUpdatedAt(new \DateTime());
+    }
+
+    /**
+     * Set transaction
+     *
+     * @param string $transaction
+     * @return Draw
+     */
+    public function setTransaction($transaction)
+    {
+        $this->transaction = $transaction;
+
+        return $this;
+    }
+
+    /**
+     * Get transaction
+     *
+     * @return string 
+     */
+    public function getTransaction()
+    {
+        return $this->transaction;
     }
 }

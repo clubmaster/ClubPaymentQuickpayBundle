@@ -80,6 +80,7 @@ class QuickpayController extends Controller
             $draw->setOrder($order);
             $draw->setAmount($order->getPrice());
             $draw->setCurrency($this->container->getParameter('club_payment_quickpay.currency'));
+            $draw->setTransaction($request->get('transaction'));
 
             $em->persist($draw);
             $em->flush();
@@ -100,7 +101,7 @@ class QuickpayController extends Controller
         $form = $this->getForm($request, $order);
 
         return array(
-            'quickpay_url' => $this->container->getParameter('club_payment_quickpay.quickpay_url'),
+            'quickpay_url' => $this->container->getParameter('club_payment_quickpay.quickpay_url').'/form/',
             'form' => $form->createView(),
             'order' => $order
         );

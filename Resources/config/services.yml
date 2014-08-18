@@ -1,0 +1,4 @@
+services:
+    club_payment_quickpay.quickpay:
+        class: Club\Payment\QuickpayBundle\Helper\Quickpay
+        arguments: [@service_container]

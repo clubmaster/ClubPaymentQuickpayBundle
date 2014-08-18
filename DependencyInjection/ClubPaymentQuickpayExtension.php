@@ -24,6 +24,8 @@ class ClubPaymentQuickpayExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
+        $loader->load('services.yml');
+
         if ($config['enabled']) $loader->load('listener.yml');
 
         $container->setParameter('club_payment_quickpay.enabled', $config['enabled']);

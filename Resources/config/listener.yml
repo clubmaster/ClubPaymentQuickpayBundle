@@ -4,3 +4,8 @@ services:
     arguments: [@service_container]
     tags:
       - { name: kernel.event_listener, event: paymentmethod.get, method: onPaymentMethodGet }
+  club.payment.draw.listener:
+    class: Club\Payment\QuickpayBundle\Listener\SubscriptionDrawListener
+    arguments: [@service_container]
+    tags:
+      - { name: kernel.event_listener, event: subscription_draw.task, method: onSubscriptionDrawTask }
