@@ -3,11 +3,14 @@
 namespace Club\Payment\QuickpayBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
+use Club\ShopBundle\Entity\PurchaseLog;
+use Club\ShopBundle\Entity\Order;
+use Club\Payment\QuickpayBundle\Entity\Draw;
 
 class QuickpayController extends Controller
 {
@@ -31,8 +34,8 @@ class QuickpayController extends Controller
 
     /**
      * @Route("/quickpay/callback/{order_id}")
-     * @Template()
      * @Method("POST")
+     * @Template()
      */
     public function callbackAction(Request $request, $order_id)
     {
@@ -42,10 +45,17 @@ class QuickpayController extends Controller
             $accepted = $this->validateTransaction($request);
         }
 
+        if (!$accepted) {
+            $this->get('error')->info('Request not validated');
+
+            return new Response('Request not accepted');
+        }
+
         $em = $this->getDoctrine()->getManager();
+
         $order = $em->find('ClubShopBundle:Order', $order_id);
 
-        $t = new \Club\ShopBundle\Entity\PurchaseLog();
+        $t = new PurchaseLog();
         $t->setAmount($request->get('amount'));
         $t->setCurrency($request->get('currency'));
         $t->setMerchant($request->get('merchant'));
@@ -61,11 +71,18 @@ class QuickpayController extends Controller
         $t->setPaymentMethod($payment);
 
         $em->persist($t);
-        $em->flush();
 
-        if ($accepted) {
-            $this->get('order')->setOrder($order);
-            $this->get('order')->makePayment($t);
+        $this->get('order')->setOrder($order);
+        $this->get('order')->makePayment($t);
+
+        if ($request->get('msgtype') == 'subscribe') {
+            $draw = new Draw;
+            $draw->setOrder($order);
+            $draw->setAmount($order->getPrice());
+            $draw->setCurrency($this->container->getParameter('club_payment_quickpay.currency'));
+
+            $em->persist($draw);
+            $em->flush();
         }
 
         return new Response('OK');
@@ -89,7 +106,7 @@ class QuickpayController extends Controller
         );
     }
 
-    protected function getForm(Request $request, \Club\ShopBundle\Entity\Order $order)
+    protected function getForm(Request $request, Order $order)
     {
         $msgtype = 'authorize';
         foreach ($order->getOrderProducts() as $prod) {
@@ -169,7 +186,9 @@ class QuickpayController extends Controller
             $request->get('transaction').
             $request->get('cardtype').
             $request->get('cardnumber').
+            $request->get('cardhash').
             $request->get('cardexpire').
+            $request->get('acquirer').
             $request->get('splitpayment').
             $request->get('fraudprobability').
             $request->get('fraudremarks').
