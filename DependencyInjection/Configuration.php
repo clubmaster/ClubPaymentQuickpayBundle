@@ -37,9 +37,9 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('quickpay_url')->isRequired()->end()
             ->scalarNode('cardtypelock')->defaultValue(null)->end()
             ->scalarNode('autofee')->defaultValue('0')->end()
-            ->scalarNode('testmode')->defaultValue('0')->end()
             ->scalarNode('splitpayment')->defaultValue('0')->end()
             ->scalarNode('testmode')->defaultValue('0')->end()
+            ->scalarNode('allow_subscription')->defaultValue(true)->end()
           ->end();
 
         return $treeBuilder;
