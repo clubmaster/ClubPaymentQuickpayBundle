@@ -1,3 +1,6 @@
+1.3 (2014-10-08)
+    * Obey allow_subscription option, did not work properly
+
 1.2 (2014-08-18)
     * Allow to use subscription
 

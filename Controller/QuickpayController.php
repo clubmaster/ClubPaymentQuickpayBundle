@@ -111,7 +111,7 @@ class QuickpayController extends Controller
     {
         $msgtype = 'authorize';
         foreach ($order->getOrderProducts() as $prod) {
-            if ($prod->getType() == 'subscription') {
+            if ($this->container->getParameter('club_payment_quickpay.allow_subscription') && $prod->getType() == 'subscription') {
                 $msgtype = 'subscribe';
             }
         }
